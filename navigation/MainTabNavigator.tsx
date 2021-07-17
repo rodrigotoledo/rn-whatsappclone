@@ -3,41 +3,42 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { View } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
+const TopBar = createBottomTabNavigator();
+
+export default function MainTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
+    <TopBar.Navigator
+      initialRouteName="TabOne">
+      <TopBar.Screen
         name="TabOne"
         component={TabOneNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      <TopBar.Screen
         name="TabTwo"
         component={TabTwoNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
-    </BottomTab.Navigator>
+    </TopBar.Navigator>
   );
 }
 
@@ -49,7 +50,7 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TabOneStack = createStackNavigator();
 
 function TabOneNavigator() {
   return (
@@ -57,13 +58,27 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+        options={{
+          headerStyle: {
+            backgroundColor: Colors.light.tint,
+            
+          },
+          headerTintColor: Colors.light.background,
+          headerTitleAlign: 'left',
+          headerRight: () => (
+          <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between', marginRight: 10}}>
+            <Ionicons name="search" size={22} color={Colors.light.white} />
+            <MaterialCommunityIcons name="dots-vertical" size={22} color={Colors.light.white} />
+          </View>
+          ),
+          title: 'WhatsAppClone'
+      }} 
       />
     </TabOneStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TabTwoStack = createStackNavigator();
 
 function TabTwoNavigator() {
   return (
