@@ -11,19 +11,16 @@ import * as React from 'react';
 import { View } from 'react-native';
 
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 
 
-const TopBar = createBottomTabNavigator();
+const TopBar = createMaterialTopTabNavigator();
 
 export default function MainTabNavigator() {
-  const colorScheme = useColorScheme();
 
   return (
-    <TopBar.Navigator
-      initialRouteName="TabOne">
+    <TopBar.Navigator initialRouteName="TabOne">
       <TopBar.Screen
         name="TabOne"
         component={TabOneNavigator}
